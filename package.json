@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./",
     "build": "babel src/react-cropper.js --out-file dist/react-cropper.js",
+    "postinstall-build": "babel ./node_modules/react-cropper/src/react-cropper.js --out-file ./node_modules/react-cropper/dist/react-cropper.js",
     "clean": "rimraf dist && mkdir dist",
     "prepublish": "npm run clean && npm run build",
-    "postinstall": "npm run clean && npm run build",
+    "postinstall": "npm run clean && npm run postinstall-build",
     "prebuild": "npm run lint",
     "build-example": "npm run build && webpack --config webpack.config.js",
     "start": "babel-node server.js"
