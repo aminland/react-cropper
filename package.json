@@ -8,6 +8,7 @@
     "lint": "eslint ./",
     "build": "babel ./src/react-cropper.js --out-file dist/react-cropper.js",
     "clean": "rimraf dist && mkdir dist",
+    "prepare": "npm run clean && npm run build",
     "prepublish": "npm run clean && npm run build",
     "prebuild": "npm run lint",
     "build-example": "npm run build && webpack --config webpack.config.js",
@@ -30,7 +31,7 @@
     "url": "https://github.com/roadmanfong/react-cropper.git"
   },
   "dependencies": {
-    "cropperjs": "v1.0.0-rc.3",
+    "cropperjs": "^1.1.1",
     "prop-types": "^15.5.8"
   },
   "peerDependencies": {

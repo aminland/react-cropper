@@ -240,9 +240,12 @@ class ReactCropper extends Component {
     return (
       <div
         src={null}
-        crossOrigin={null}
+        crossOrigin={crossOrigin} //eslint-disable-line
         alt={null}
-        style={this.props.style}
+        style={Object.assign({}, this.props.style, { overflow: 'hidden' },
+          this.props.maxContainerWidth ? { maxWidth: this.props.maxContainerWidth } : {},
+          this.props.maxContainerHeight ? { maxHeight: this.props.maxContainerHeight } : {},
+        )}
         className={this.props.className}
       >
         <img
@@ -250,7 +253,9 @@ class ReactCropper extends Component {
           ref={(img) => { this.img = img; }}
           src={src}
           alt={alt === undefined ? 'picture' : alt}
-          style={{ opacity: 0 }}
+          style={{
+            opacity: 0,
+          }}
         />
       </div>
     );
@@ -323,6 +328,8 @@ ReactCropper.propTypes = {
   cropBoxMovable: PropTypes.bool,
   cropBoxResizable: PropTypes.bool,
   toggleDragModeOnDblclick: PropTypes.bool,
+  maxContainerWidth: PropTypes.number,
+  maxContainerHeight: PropTypes.number,
   minContainerWidth: PropTypes.number,
   minContainerHeight: PropTypes.number,
   minCanvasWidth: PropTypes.number,
@@ -346,6 +353,8 @@ ReactCropper.defaultProps = {
   enable: true,
   zoomTo: 1,
   rotateTo: 0,
+  maxContainerWidth: '100%',
+  maxContainerHeight: 'auto',
 };
 
 export default ReactCropper;

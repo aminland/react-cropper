@@ -108,7 +108,14 @@ var ReactCropper = function (_Component) {
       }
 
       Object.keys(nextProps).forEach(function (propKey) {
-        if (nextProps[propKey] !== _this3.props[propKey] && unchangeableProps.indexOf(propKey) !== -1) {
+        var isDifferentVal = nextProps[propKey] !== _this3.props[propKey];
+        var isUnchangeableProps = unchangeableProps.indexOf(propKey) !== -1;
+
+        if (typeof nextProps[propKey] === 'function' && typeof _this3.props[propKey] === 'function') {
+          isDifferentVal = nextProps[propKey].toString() !== _this3.props[propKey].toString();
+        }
+
+        if (isDifferentVal && isUnchangeableProps) {
           throw new Error('prop: ' + propKey + ' can\'t be change after componentDidMount');
         }
       });
@@ -268,9 +275,9 @@ var ReactCropper = function (_Component) {
         'div',
         {
           src: null,
-          crossOrigin: null,
-          alt: null,
-          style: this.props.style,
+          crossOrigin: crossOrigin //eslint-disable-line
+          , alt: null,
+          style: _extends({}, this.props.style, { overflow: 'hidden' }, this.props.maxContainerWidth ? { maxWidth: this.props.maxContainerWidth } : {}, this.props.maxContainerHeight ? { maxHeight: this.props.maxContainerHeight } : {}),
           className: this.props.className
         },
         _react2.default.createElement('img', {
@@ -280,7 +287,9 @@ var ReactCropper = function (_Component) {
           },
           src: src,
           alt: alt === undefined ? 'picture' : alt,
-          style: { opacity: 0 }
+          style: {
+            opacity: 0
+          }
         })
       );
     }
@@ -355,6 +364,8 @@ ReactCropper.propTypes = {
   cropBoxMovable: _propTypes2.default.bool,
   cropBoxResizable: _propTypes2.default.bool,
   toggleDragModeOnDblclick: _propTypes2.default.bool,
+  maxContainerWidth: _propTypes2.default.number,
+  maxContainerHeight: _propTypes2.default.number,
   minContainerWidth: _propTypes2.default.number,
   minContainerHeight: _propTypes2.default.number,
   minCanvasWidth: _propTypes2.default.number,
@@ -377,7 +388,9 @@ ReactCropper.defaultProps = {
   scaleY: 1,
   enable: true,
   zoomTo: 1,
-  rotateTo: 0
+  rotateTo: 0,
+  maxContainerWidth: '100%',
+  maxContainerHeight: 'auto'
 };
 
 exports.default = ReactCropper;
